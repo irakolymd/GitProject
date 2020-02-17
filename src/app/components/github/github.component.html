@@ -1,0 +1,40 @@
+<div class="container">
+    <h3 class="text-center">Search Github repositories by keyword</h3>
+    <nav class="navbar navbar-light bg-light  justify-content-md-center">
+                <form class="form-inline" action="#">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Enter the keyword" aria-label="Search"
+                        name="keyword" [(ngModel)]="keyword">
+                    <button type="button" class="btn btn-outline-success my-2 my-sm-0"
+                        (click)="getByKeyword()">Search</button>
+                </form>
+    </nav>
+    <div>
+    <p *ngIf="noResults === true && loading === false">We couldn’t find any repositories matching '{{keyword}}'</p>
+    </div>
+    <div *ngIf="loading === true" class="text-center">
+        <div class="spinner-border text-secondary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <ul class="pagination justify-content-md-center" *ngIf="pages != 0 && loading !== true">
+        <li class="page-item" *ngIf="currentPage > 1"><a class="page-link" href="#" (click)="getPreviousPage()">Previous</a></li>
+        <div *ngFor="let item of arrayPages">
+            <li class="page-item"><a class="page-link" href="#" (click)="getRepoByPage(item)" [class.current-page]="item === currentPage">{{item}}</a></li>
+        </div>
+        <li class="page-item" *ngIf="currentPage !== numberOfPages"><a class="page-link" href="#" (click)="getNextPage()">Next</a></li>
+    </ul>
+    <div *ngIf="loading === false">
+        <ul class="repo-list" *ngFor="let repo of filteredRepositories.items" style="list-style-type:none">
+            <li *ngIf="repo !== null" class="repo-list-item"><a
+                    href="{{repo.clone_url}}"><b>{{repo.full_name}}</b><br></a>{{repo.description}}</li>
+        </ul>
+    </div>
+
+    <ul class="pagination justify-content-md-center" *ngIf="pages != 0 && loading !== true">
+        <li class="page-item" *ngIf="currentPage > 1"><a class="page-link" href="#" (click)="getPreviousPage()">Previous</a></li>
+        <div *ngFor="let item of arrayPages">
+            <li class="page-item"><a class="page-link" href="#" (click)="getRepoByPage(item)" [class.current-page]="item === currentPage">{{item}}</a></li>
+        </div>
+        <li class="page-item" *ngIf="currentPage !== numberOfPages"><a class="page-link" href="#" (click)="getNextPage()">Next</a></li>
+    </ul>
+</div>
